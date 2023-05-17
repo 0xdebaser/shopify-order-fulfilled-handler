@@ -2,17 +2,18 @@
 
 import { Client, Environment, ApiError } from "square";
 
-const client = new Client({
-  accessToken: process.env.SQUARE_ACCESS_TOKEN,
-  environment: Environment.Production,
-});
-
-const { catalogApi } = client;
-
 export const handler = async (event, context, callback) => {
   let responseObject;
+  let client;
 
   try {
+    if (!client)
+      client = new Client({
+        accessToken: process.env.SQUARE_ACCESS_TOKEN,
+        environment: Environment.Production,
+      });
+    const { catalogApi } = client;
+
     const res = await catalogApi.searchCatalogItems({
       stockLevels: ["LOW"],
     });
