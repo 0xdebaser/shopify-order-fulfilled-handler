@@ -17,7 +17,7 @@ export const handler = async (event, context, callback) => {
     const res = await catalogApi.searchCatalogItems({
       stockLevels: ["LOW"],
     });
-    const { matchedVariationIds } = res;
+    const { matchedVariationIds } = res.result;
     responseObject = {
       result: "success",
       ids: matchedVariationIds,
