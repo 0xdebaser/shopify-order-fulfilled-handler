@@ -1,0 +1,14 @@
+{
+  "name": "birc-transfer-get-items",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "0xdebaser",
+  "license": "ISC",
+  "dependencies": {
+    "square": "^27.0.0"
+  }
+}
