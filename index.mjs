@@ -1,4 +1,4 @@
-// This lambda function queries Square for all inventory items with a low stock alert and returns the variant ids for all matches
+// This lambda function queries Square the inventory quantities for a given array of ids
 
 import { Client, Environment, ApiError } from "square";
 
@@ -12,15 +12,18 @@ export const handler = async (event, context, callback) => {
         accessToken: process.env.SQUARE_ACCESS_TOKEN,
         environment: Environment.Production,
       });
-    const { catalogApi } = client;
+    const { inventoryApi } = client;
 
-    const res = await catalogApi.searchCatalogItems({
-      stockLevels: ["LOW"],
+    const data = await JSON.parse(event.body);
+    const ids = data.ids;
+
+    const res = await inventoryApi.batchRetrieveInventoryCounts({
+      catalogObjectIds: ids,
     });
-    const { matchedVariationIds } = res.result;
+    const { counts } = res.result;
     responseObject = {
       result: "success",
-      ids: matchedVariationIds,
+      counts,
     };
   } catch (error) {
     if (error instanceof ApiError) {
