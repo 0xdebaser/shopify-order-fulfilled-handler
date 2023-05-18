@@ -1,4 +1,4 @@
-// This lambda function queries Square the inventory quantities for a given array of ids
+// This lambda function queries Square the inventory quantities for a given array of ids.
 
 import { Client, Environment, ApiError } from "square";
 
