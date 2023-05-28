@@ -36,6 +36,7 @@ export const handler = async (event, context, callback) => {
       catalogObjectIds: ids,
       limit: 1000,
     });
+    const { counts } = res.result;
     responseObject = {
       result: "success",
       counts,
