@@ -7,7 +7,7 @@ export const handler = async (event, context, callback) => {
   let client;
   let countsArray = [];
 
-  async function getInventory(ids, prevCursor = null) {
+  async function getInventory(inventoryApi, ids, prevCursor = null) {
     const queryParams = {
       catalogObjectIds: ids,
     };
@@ -31,7 +31,7 @@ export const handler = async (event, context, callback) => {
     const { inventoryApi } = client;
     const data = await JSON.parse(event.body);
     const ids = data.ids;
-    const counts = await getInventory(ids);
+    const counts = await getInventory(inventoryApi, ids);
     responseObject = {
       result: "success",
       counts,
