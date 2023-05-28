@@ -5,22 +5,22 @@ import { Client, Environment, ApiError } from "square";
 export const handler = async (event, context, callback) => {
   let responseObject;
   let client;
-  let countsArray = [];
+  //let countsArray = [];
 
-  async function getInventory(inventoryApi, ids, prevCursor = null) {
-    const queryParams = {
-      catalogObjectIds: ids,
-    };
-    if (prevCursor) queryParams.cursor = prevCursor;
-    const res = await inventoryApi.batchRetrieveInventoryCounts(queryParams);
-    const { counts, cursor } = res.result;
-    countsArray = [...countsArray, ...counts];
-    if (cursor) {
-      getInventory(ids, cursor);
-    } else {
-      return countsArray;
-    }
-  }
+  // async function getInventory(inventoryApi, ids, prevCursor = null) {
+  //   const queryParams = {
+  //     catalogObjectIds: ids,
+  //   };
+  //   if (prevCursor) queryParams.cursor = prevCursor;
+  //   const res = await inventoryApi.batchRetrieveInventoryCounts(queryParams);
+  //   const { counts, cursor } = res.result;
+  //   countsArray = [...countsArray, ...counts];
+  //   if (cursor) {
+  //     getInventory(ids, cursor);
+  //   } else {
+  //     return countsArray;
+  //   }
+  // }
 
   try {
     if (!client)
@@ -31,7 +31,11 @@ export const handler = async (event, context, callback) => {
     const { inventoryApi } = client;
     const data = await JSON.parse(event.body);
     const ids = data.ids;
-    const counts = await getInventory(inventoryApi, ids);
+    // const counts = await getInventory(inventoryApi, ids);
+    const res = await inventoryApi.batchRetrieveInventoryCounts({
+      catalogObjectIds: ids,
+      limit: 1000,
+    });
     responseObject = {
       result: "success",
       counts,
