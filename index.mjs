@@ -17,7 +17,7 @@ export const handler = async (event, context, callback) => {
     const { inventoryApi } = client;
     const data = await JSON.parse(event.body);
     const ids = data.ids;
-    const subArraysNeeded = Math.ceil(ids.length);
+    const subArraysNeeded = Math.ceil(ids.length / 1000);
 
     for (let i = 0; i < subArraysNeeded; i++) {
       let subArray;
