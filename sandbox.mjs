@@ -1,6 +1,8 @@
-// This lambda function queries Square the inventory quantities for a given array of ids.
+import testArray from "./testArray.mjs";
 
 import { Client, Environment, ApiError } from "square";
+import dotenv from "dotenv";
+dotenv.config();
 
 export const handler = async (event, context, callback) => {
   let responseObject;
@@ -15,15 +17,25 @@ export const handler = async (event, context, callback) => {
         environment: Environment.Production,
       });
     const { inventoryApi } = client;
-    const data = await JSON.parse(event.body);
-    const ids = data.ids;
-    const subArraysNeeded = Math.ceil(ids.length);
+    // const data = await JSON.parse(event.body);
+    // const ids = data.ids;
+    const ids = testArray; // For testing only
+    const subArraysNeeded = Math.ceil(ids.length / 1000);
+    console.log("subArraysNeeded:", subArraysNeeded);
 
     for (let i = 0; i < subArraysNeeded; i++) {
       let subArray;
       if (i === subArraysNeeded - 1) {
         subArray = ids.slice(1000 * i);
       } else subArray = ids.slice(1000 * i, 1000 * (i + 1));
+
+      console.log(
+        `running subarray #${i} (${0 + 1000 * i}-${
+          i === subArraysNeeded - 1 ? null : 1000 * (i + 1)
+        })`
+      );
+
+      console.log(subArray);
 
       console.log(`API call #${calls}`);
       calls++;
@@ -57,6 +69,8 @@ export const handler = async (event, context, callback) => {
       result: "success",
       counts: countsArray,
     };
+
+    console.log(countsArray.length);
   } catch (error) {
     if (error instanceof ApiError) {
       error.result.errors.forEach(function (e) {
@@ -81,5 +95,7 @@ export const handler = async (event, context, callback) => {
     body: JSON.stringify(responseObject),
   };
 
-  callback(null, response);
+  console.log(response);
 };
+
+handler();
