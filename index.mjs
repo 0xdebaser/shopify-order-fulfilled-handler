@@ -25,6 +25,14 @@ export const handler = async (event, context, callback) => {
         subArray = ids.slice(1000 * i);
       } else subArray = ids.slice(1000 * i, 1000 * (i + 1));
 
+      console.log(
+        `running subarray #${i} (${0 + 1000 * i}-${
+          i === subArraysNeeded - 1 ? null : 1000 * (i + 1)
+        })`
+      );
+
+      console.log(subArray);
+
       console.log(`API call #${calls}`);
       calls++;
       const res = await inventoryApi.batchRetrieveInventoryCounts({
