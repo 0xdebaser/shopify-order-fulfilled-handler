@@ -1,5 +1,5 @@
 {
-  "name": "birc-transfer-get-items",
+  "name": "birc-email-signup",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,7 +9,7 @@
   "author": "0xdebaser",
   "license": "ISC",
   "dependencies": {
-    "dotenv": "^16.3.1",
+    "crypto-js": "^4.2.0",
     "square": "^27.0.0"
   }
 }
