@@ -6,7 +6,13 @@ export const handler = async (event, context, callback) => {
   try {
     const data = await JSON.parse(event.body);
     const inventory_counts = data.data.object.inventory_counts;
-    console.log(inventory_counts);
+    const changedIds = new Set();
+    inventory_counts.array.forEach((count) => {
+      changedIds.add(count.catalogObjectId);
+    });
+    for (const id of changedIds) {
+      console.log(id);
+    }
     responseObject = {
       result: "success",
     };
