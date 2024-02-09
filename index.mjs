@@ -4,7 +4,6 @@ export const handler = async (event, context, callback) => {
   let responseObject;
 
   try {
-    console.log(event.keys());
     const data = await JSON.parse(event.body);
     const inventory_counts = data.data.object.inventory_counts;
     const changedIds = new Set();
