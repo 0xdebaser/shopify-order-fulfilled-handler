@@ -11,14 +11,11 @@ export default async function updateShopifyInventory(
   const response_0 = await client.get(`variants/${shopifyObjectId}.json`);
   if (response_0.ok) {
     const body = await response_0.json();
-    console.log(body);
     inventory_id = body.variant.inventory_item_id;
-    console.log(inventory_id);
   } else {
     // If it's not a variant it's a standalone product
     const response_1 = await client.get(`products/${shopifyObjectId}.json`);
     if (response_1.ok) {
-      console.log("response_1 ok");
       const body = await response_1.json();
       if (body.product.variants.length == 1) {
         inventory_id = body.product.variants[0].inventory_item_id;
@@ -37,7 +34,12 @@ export default async function updateShopifyInventory(
       },
     });
     if (response_2.ok) {
-      console.log("success!");
-    } else console.log(response_2);
+      console.log(
+        `updated inventory for Shopify Object/Variant Id: ${shopifyObjectId}`
+      );
+    } else
+      console.log(
+        `failed to update inventory for Shopify Object/Variant Id: ${shopifyObjectId}`
+      );
   }
 }
