@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@shopify/admin-api-client": "^0.2.3",
-    "dotenv": "^16.4.1"
+    "dotenv": "^16.4.1",
+    "square": "^34.0.1"
   }
 }
