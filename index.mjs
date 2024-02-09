@@ -13,10 +13,11 @@ export const handler = async (event, context, callback) => {
   try {
     const data = await JSON.parse(event.body);
     // Get the square variant ids for any items whose inventory count changed
+    console.log(data.keys());
     const inventory_counts = data.data.object.inventory_counts;
     const changedIds = [];
     inventory_counts.forEach((count) => {
-      changedIds.push(count.catalogObjectId);
+      changedIds.push(count.catalog_object_id);
     });
     // Check the changed square ids to see if they have associated Shopify ids
     if (!squareClient)
