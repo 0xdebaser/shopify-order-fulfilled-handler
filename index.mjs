@@ -18,7 +18,7 @@ export const handler = async (event, context, callback) => {
         environment: Environment.Production,
       });
     const alertItems = [];
-    lineItems.forEach(async (lineItem) => {
+    await lineItems.forEach(async (lineItem) => {
       // Can only check Cube inventory if sku is present for item
       if (lineItem.sku) {
         console.log(`Checking ${lineItem.name}. Need ${lineItem.quantity}.`);
