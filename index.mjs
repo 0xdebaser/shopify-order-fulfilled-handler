@@ -1,5 +1,6 @@
 import { Client, Environment } from "square";
 
+import doesItemHaveNecessaryCubeInventory from "./doesItemHaveNecessaryCubeInventory.mjs";
 import sendAlertEmail from "./sendAlertEmail.mjs";
 
 export const handler = async (event, context, callback) => {
@@ -17,13 +18,29 @@ export const handler = async (event, context, callback) => {
         environment: Environment.Production,
       });
     const alertItems = [];
-    lineItems.forEach((lineItem) =>
-      alertItems.push({
-        name: lineItem.name,
-        sku: lineItem.sku,
-      })
-    );
-    await sendAlertEmail(orderNumber, alertItems);
+    lineItems.forEach(async (lineItem) => {
+      // Can only check Cube inventory if sku is present for item
+      if (lineItem.sku) {
+        const sufficientCubeInventory =
+          await doesItemHaveNecessaryCubeInventory(
+            squareClient,
+            lineItem.sku,
+            lineItem.quantity
+          );
+        if (!sufficientCubeInventory) {
+          alertItems.push({
+            name: lineItem.name,
+            sku: lineItem.sku,
+          });
+        }
+      }
+    });
+    if (alertItems.length) {
+      await sendAlertEmail(orderNumber, alertItems);
+    } else {
+      console.log(`No alert triggered for Order #${orderNumber}`);
+    }
+
     responseObject = {
       result: "success",
     };
