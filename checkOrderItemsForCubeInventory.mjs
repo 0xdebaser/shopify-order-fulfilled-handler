@@ -9,7 +9,7 @@ export default async function checkOrderItemsForCubeInventory(
   const alertItems = [];
   const promises = lineItems.map(async (lineItem) => {
     if (lineItem.sku) {
-      console.log(`Checking ${lineItem.name}. Need ${lineItem.quantity}.`);
+      // console.log(`Checking ${lineItem.name}. Need ${lineItem.quantity}.`);
       const sufficientCubeInventory = await doesItemHaveNecessaryCubeInventory(
         squareClient,
         lineItem.sku,
