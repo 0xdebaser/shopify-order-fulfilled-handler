@@ -21,6 +21,7 @@ export const handler = async (event, context, callback) => {
     lineItems.forEach(async (lineItem) => {
       // Can only check Cube inventory if sku is present for item
       if (lineItem.sku) {
+        console.log(`Checking ${lineItem.name}. Need ${lineItem.quantity}.`);
         const sufficientCubeInventory =
           await doesItemHaveNecessaryCubeInventory(
             squareClient,
