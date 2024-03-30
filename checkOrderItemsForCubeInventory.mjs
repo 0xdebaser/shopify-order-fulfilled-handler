@@ -3,7 +3,8 @@ import sendAlertEmail from "./sendAlertEmail.mjs";
 
 export default async function checkOrderItemsForCubeInventory(
   lineItems,
-  squareClient
+  squareClient,
+  orderNumber
 ) {
   const alertItems = [];
   await lineItems.forEach(async (lineItem) => {
