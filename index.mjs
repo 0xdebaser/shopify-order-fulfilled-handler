@@ -6,7 +6,9 @@ export const handler = async (event, context, callback) => {
 
   try {
     const data = await JSON.parse(event.body);
-    console.log(data);
+    const orderNumber = data.order_number;
+    const lineItems = data.lineItems;
+    console.log(`Recieved webhook for creation of order #${orderNumber}`);
     if (!squareClient)
       squareClient = new Client({
         accessToken: process.env.SQUARE_ACCESS_TOKEN,
