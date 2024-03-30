@@ -9,7 +9,7 @@ export const handler = async (event, context, callback) => {
   try {
     const data = await JSON.parse(event.body);
     const orderNumber = data.order_number;
-    const lineItems = data.lineItems;
+    const lineItems = data.line_items;
     console.log(`Recieved webhook for creation of order #${orderNumber}`);
     if (!squareClient)
       squareClient = new Client({
