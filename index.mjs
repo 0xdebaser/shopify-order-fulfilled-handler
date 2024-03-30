@@ -1,5 +1,7 @@
 import { Client, Environment } from "square";
 
+import sendAlertEmail from "./sendAlertEmail.mjs";
+
 export const handler = async (event, context, callback) => {
   let responseObject;
   let squareClient;
@@ -14,6 +16,14 @@ export const handler = async (event, context, callback) => {
         accessToken: process.env.SQUARE_ACCESS_TOKEN,
         environment: Environment.Production,
       });
+    const alertItems = [];
+    lineItems.forEach((lineItem) =>
+      alertItems.push({
+        name: lineItem.name,
+        sku: lineItem.sku,
+      })
+    );
+    await sendAlertEmail(orderNumber, alertItems);
     responseObject = {
       result: "success",
     };
