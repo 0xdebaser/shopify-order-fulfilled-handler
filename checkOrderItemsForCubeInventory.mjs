@@ -7,8 +7,7 @@ export default async function checkOrderItemsForCubeInventory(
   orderNumber
 ) {
   const alertItems = [];
-  await lineItems.forEach(async (lineItem) => {
-    // Can only check Cube inventory if sku is present for item
+  const promises = lineItems.map(async (lineItem) => {
     if (lineItem.sku) {
       console.log(`Checking ${lineItem.name}. Need ${lineItem.quantity}.`);
       const sufficientCubeInventory = await doesItemHaveNecessaryCubeInventory(
@@ -24,6 +23,7 @@ export default async function checkOrderItemsForCubeInventory(
       }
     }
   });
+  await Promise.all(promises);
   if (alertItems.length) {
     await sendAlertEmail(orderNumber, alertItems);
   } else {
