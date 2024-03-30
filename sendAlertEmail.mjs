@@ -8,7 +8,7 @@ export default async function sendAlertEmail(orderNumber, alertItems) {
       port: 465,
       auth: {
         user: "alerts@runbig.co",
-        password: process.env.ZOHO_MAIL_PASSWORD,
+        pass: process.env.ZOHO_MAIL_PASSWORD,
       },
     });
     let alertItemsList = "<ul>";
