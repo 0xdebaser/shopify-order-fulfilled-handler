@@ -19,7 +19,7 @@ export default async function sendAlertEmail(orderNumber, alertItems) {
     alertItemsList += "</ul>";
     const info = await transporter.sendMail({
       from: '"Auto Alerts 🙊" <alerts@runbig.co>',
-      to: "jason@jasonbraswell.com",
+      to: "shop@bigislandrunningcompany.com",
       subject: `Alert for Order #${orderNumber}`,
       html: `<h2>The following items in Order #${orderNumber} are not in stock at the Cube:</h2> ${alertItemsList}`,
     });
