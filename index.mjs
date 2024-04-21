@@ -8,15 +8,16 @@ export const handler = async (event, context, callback) => {
 
   try {
     const data = await JSON.parse(event.body);
-    const orderNumber = data.order_number;
-    const lineItems = data.line_items;
-    console.log(`Received webhook for creation of order #${orderNumber}`);
-    if (!squareClient)
-      squareClient = new Client({
-        accessToken: process.env.SQUARE_ACCESS_TOKEN,
-        environment: Environment.Production,
-      });
-    checkOrderItemsForCubeInventory(lineItems, squareClient, orderNumber);
+    console.log(data);
+    // const orderNumber = data.order_number;
+    // const lineItems = data.line_items;
+    // console.log(`Received webhook for creation of order #${orderNumber}`);
+    // if (!squareClient)
+    //   squareClient = new Client({
+    //     accessToken: process.env.SQUARE_ACCESS_TOKEN,
+    //     environment: Environment.Production,
+    //   });
+    // checkOrderItemsForCubeInventory(lineItems, squareClient, orderNumber);
     responseObject = {
       result: "success",
     };
