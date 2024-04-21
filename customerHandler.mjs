@@ -1,15 +1,3 @@
-// ISO 3166 codes used by Square
-function getCountryCode(countryStr) {
-  switch (countryStr) {
-    case "Canada" | "canada" | "CA" | "CA":
-      return "CA";
-    case "United States" | "US" | "U.S." | "U.S.A." | "USA":
-      return "US";
-    default:
-      return "";
-  }
-}
-
 export default async function customerHandler(data, squareClient) {
   let squareCustomerId;
   try {
@@ -38,7 +26,9 @@ export default async function customerHandler(data, squareClient) {
           addressLine2: customer.default_address.address2
             ? customer.default_address.address2
             : "",
-          country: getCountryCode(customer.default_address.country),
+          country: customer.default_address.country_code
+            ? customer.default_address.country_code
+            : "",
           firstName: customer.default_address.first_name
             ? customer.default_address.first_name
             : "",
