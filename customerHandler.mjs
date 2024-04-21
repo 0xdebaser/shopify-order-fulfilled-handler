@@ -45,7 +45,12 @@ export default async function customerHandler(data, squareClient) {
             ? customer.default_address.province
             : "",
         },
-        emailAddress: customer.email ? customer.email : "",
+        // can't figure out how to unsubscribe from marketing, so not putting in email address unless consented
+        emailAddress:
+          customer.email &&
+          customer.email_marketing_consent.state != "not_subscribed"
+            ? customer.email
+            : "",
         familyName: customer.last_name ? customer.last_name : "",
         givenName: customer.first_name ? customer.first_name : "",
         phoneNumber: customer.phone ? customer.phone : "",

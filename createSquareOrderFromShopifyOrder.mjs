@@ -1,5 +1,8 @@
 import { Client, Environment } from "square";
+
 import customerHandler from "./customerHandler.mjs";
+import doesItemHaveNecessaryCubeInventory from "./doesItemHaveNecessaryCubeInventory.mjs";
+import transferToCube from "./transferToCube.mjs";
 
 export default async function createSquareOrderFromShopifyOrder(data) {
   let squareClient;
@@ -23,7 +26,13 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     // add items to order by looping through line items
     newOrderData.line_items = [];
     data.line_items.forEach((lineItem) => {
-      console.log(lineItem.sku);
+      const { sku } = lineItem; // Shopify sku == Square item id
+      const inStockAtCube = doesItemHaveNecessaryCubeInventory(
+        squareClient,
+        sku,
+        lineItem.quantity
+      );
+      if (!inStockAtCube) transferToCube(squareClient, sku, lineItem.quantity);
     });
   } catch (error) {
     console.log(error);
