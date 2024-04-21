@@ -1,3 +1,15 @@
+// ISO 3166 codes used by Square
+function getCountryCode(countryStr) {
+  switch (countryStr) {
+    case "Canada" | "canada" | "CA" | "CA":
+      return "CA";
+    case "United States" | "US" | "U.S." | "U.S.A." | "USA":
+      return "US";
+    default:
+      return "";
+  }
+}
+
 export default async function customerHandler(data, squareClient) {
   let squareCustomerId;
   try {
@@ -17,6 +29,7 @@ export default async function customerHandler(data, squareClient) {
       squareCustomerId = response.result.customers[0].id;
       console.log(`Customer found. Returning id: ${squareCustomerId}`);
     } else {
+      // If not, make a new customer
       const response1 = await squareClient.customersApi.createCustomer({
         address: {
           addressLine1: customer.default_address.address1
@@ -25,9 +38,7 @@ export default async function customerHandler(data, squareClient) {
           addressLine2: customer.default_address.address2
             ? customer.default_address.address2
             : "",
-          country: customer.default_address.country
-            ? customer.default_address.country
-            : "",
+          country: getCountryCode(customer.default_address.country),
           firstName: customer.default_address.first_name
             ? customer.default_address.first_name
             : "",
