@@ -11,7 +11,7 @@ export const handler = async (event, context, callback) => {
     console.log(data);
     const newOrder = { order: {} };
     newOrder.order.location = process.env.SQUARE_CUBE_LOCATION_ID;
-    newOrder.order.source.name = "shopify-fulfillment-handler";
+    newOrder.order.source = { name: "shopify-fulfillment-handler" };
 
     // add items to order by looping through line items
     data.line_items.forEach((lineItem) => {
