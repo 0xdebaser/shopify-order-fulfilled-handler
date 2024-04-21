@@ -1,32 +1,11 @@
-import { Client, Environment } from "square";
-
-import checkOrderItemsForCubeInventory from "./checkOrderItemsForCubeInventory.mjs";
+import createSquareOrderFromShopifyOrder from "./createSquareOrderFromShopifyOrder.mjs";
 
 export const handler = async (event, context, callback) => {
   let responseObject;
-  let squareClient;
 
   try {
     const data = await JSON.parse(event.body);
-    console.log(data);
-    const newOrder = { order: {} };
-    newOrder.order.location = process.env.SQUARE_CUBE_LOCATION_ID;
-    newOrder.order.source = { name: "shopify-fulfillment-handler" };
-
-    // add items to order by looping through line items
-    data.line_items.forEach((lineItem) => {
-      console.log(lineItem.sku);
-    });
-
-    // const orderNumber = data.order_number;
-    // const lineItems = data.line_items;
-    // console.log(`Received webhook for creation of order #${orderNumber}`);
-    // if (!squareClient)
-    //   squareClient = new Client({
-    //     accessToken: process.env.SQUARE_ACCESS_TOKEN,
-    //     environment: Environment.Production,
-    //   });
-    // checkOrderItemsForCubeInventory(lineItems, squareClient, orderNumber);
+    createSquareOrderFromShopifyOrder(data);
     responseObject = {
       result: "success",
     };
