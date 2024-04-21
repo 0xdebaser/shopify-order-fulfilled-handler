@@ -19,19 +19,35 @@ export default async function customerHandler(data, squareClient) {
     } else {
       const response1 = await squareClient.customersApi.createCustomer({
         address: {
-          addressLine1: customer.default_address.address1,
-          addressLine2: customer.default_address.address2,
-          country: customer.default_address.country,
-          firstName: customer.default_address.firstName,
-          lastName: customer.default_address.last_name,
-          postalCode: customer.default_address.zip,
-          locality: customer.default_address.city,
-          administrativeDistrictLevel1: customer.default_address.province,
+          addressLine1: customer.default_address.address1
+            ? customer.default_address.address1
+            : "",
+          addressLine2: customer.default_address.address2
+            ? customer.default_address.address2
+            : "",
+          country: customer.default_address.country
+            ? customer.default_address.country
+            : "",
+          firstName: customer.default_address.first_name
+            ? customer.default_address.first_name
+            : "",
+          lastName: customer.default_address.last_name
+            ? customer.default_address.last_name
+            : "",
+          postalCode: customer.default_address.zip
+            ? customer.default_address.zip
+            : "",
+          locality: customer.default_address.city
+            ? customer.default_address.city
+            : "",
+          administrativeDistrictLevel1: customer.default_address.province
+            ? customer.default_address.province
+            : "",
         },
-        emailAddress: customer.email,
-        familyName: customer.last_name,
-        givenName: customer.first_name,
-        phoneNumber: customer.phone,
+        emailAddress: customer.email ? customer.email : "",
+        familyName: customer.last_name ? customer.last_name : "",
+        givenName: customer.first_name ? customer.first_name : "",
+        phoneNumber: customer.phone ? customer.phone : "",
       });
       squareCustomerId = response1.result.customer.id;
       console.log(`New customer created. Returning ${squareCustomerId}`);
