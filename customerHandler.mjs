@@ -21,8 +21,17 @@ export default async function customerHandler(data, squareClient) {
         address: {
           addressLine1: customer.default_address.address1,
           addressLine2: customer.default_address.address2,
+          country: customer.default_address.country,
+          firstName: customer.default_address.firstName,
+          lastName: customer.default_address.last_name,
+          postalCode: customer.default_address.zip,
+          locality: customer.default_address.city,
+          administrativeDistrictLevel1: customer.default_address.province,
         },
         emailAddress: customer.email,
+        familyName: customer.last_name,
+        givenName: customer.first_name,
+        phoneNumber: customer.phone,
       });
       squareCustomerId = response1.result.customer.id;
       console.log(`New customer created. Returning ${squareCustomerId}`);
