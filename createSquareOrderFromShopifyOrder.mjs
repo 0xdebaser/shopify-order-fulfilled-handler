@@ -1,5 +1,4 @@
 import { Client, Environment } from "square";
-import { v4 as uuidv4 } from "uuid";
 
 import customerHandler from "./customerHandler.mjs";
 import doesItemHaveNecessaryCubeInventory from "./doesItemHaveNecessaryCubeInventory.mjs";
@@ -81,7 +80,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
 
     // Pay for order
     const response1 = await squareClient.paymentsApi.createPayment({
-      idempotencyKey: uuidv4(),
+      idempotencyKey: crypto.randomUUID(),
       sourceId: "EXTERNAL",
       amountMoney: {
         amount: orderTotal,
