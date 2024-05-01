@@ -75,6 +75,10 @@ export default async function createSquareOrderFromShopifyOrder(data) {
       order: newOrderData,
     });
     console.log(`New Square Order created: ${response.result.order.id}`);
+    const orderTotal = response.result.order.totalMoney.amount;
+    console.log(`Order total: ${orderTotal}`);
+
+    // Pay for order
 
     // Pay for the order
   } catch (error) {
