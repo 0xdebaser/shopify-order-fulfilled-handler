@@ -54,7 +54,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     // Add in shipping as line item
     const shippingLineItem = {
       name: "Shipping",
-      quantity: 1,
+      quantity: "1",
       basePriceMoney: {
         amount: data.shipping_lines[0].price
           ? parseFloat(data.shipping_lines[0].price) * 100
