@@ -64,11 +64,16 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     };
     newOrderData.lineItems.push(shippingLineItem);
 
+    // Add in fulfillment state (for Square Dashboard purposes)
+    newOrderData.fulfillments = [{ type: "SHIPMENT", state: "OPEN" }];
+
     // Create new order in Square
     const response = await squareClient.ordersApi.createOrder({
       order: newOrderData,
     });
     console.log(`New Square Order created: ${response.result.order.id}`);
+
+    // Pay for the order
   } catch (error) {
     console.log(error);
   }
