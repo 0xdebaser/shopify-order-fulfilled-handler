@@ -11,7 +11,7 @@ export default async function customerHandler(data, squareClient) {
         },
       },
     });
-    console.log(response.result);
+
     // Is customer already in Square?
     if (response.result.hasOwnProperty("customers")) {
       squareCustomerId = response.result.customers[0].id;

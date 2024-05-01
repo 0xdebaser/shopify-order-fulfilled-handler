@@ -26,7 +26,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
 
     // add items to order by looping through line items
     newOrderData.lineItems = [];
-    data.lineItems.forEach((lineItem) => {
+    data.line_items.forEach((lineItem) => {
       const { sku } = lineItem; // Shopify sku == Square item id
       // Check to make sure that there is sufficient inventory at the Cube.
       // If not, transfer inventory from Alii to the Cube.
