@@ -19,7 +19,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
       });
 
     // extract new order data from Shopify order
-    newOrderData.location = process.env.SQUARE_CUBE_LOCATION_ID;
+    newOrderData.locationId = process.env.SQUARE_CUBE_LOCATION_ID;
     newOrderData.source = { name: "shopify-fulfillment-handler" };
     newOrderData.referenceId = `Shopify Order: ${data.id}`;
     newOrderData.customerId = await customerHandler(data, squareClient);
@@ -34,14 +34,14 @@ export default async function createSquareOrderFromShopifyOrder(data) {
         const inStockAtCube = doesItemHaveNecessaryCubeInventory(
           squareClient,
           sku,
-          lineItem.quantity
+          lineItem.quantity.toString()
         );
         if (!inStockAtCube)
           transferToCube(squareClient, sku, lineItem.quantity);
       }
       const lineItemObj = {
         name: lineItem.name,
-        quantity: lineItem.quantity,
+        quantity: lineItem.quantity.toString(),
         basePriceMoney: {
           amount: parseFloat(lineItem.price) * 100,
           currency: "USD",
