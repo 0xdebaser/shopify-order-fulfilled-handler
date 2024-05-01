@@ -76,9 +76,19 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     });
     console.log(`New Square Order created: ${response.result.order.id}`);
     const orderTotal = response.result.order.totalMoney.amount;
-    console.log(`Order total: ${orderTotal}`);
 
     // Pay for order
+    const response1 = await squareClient.paymentsApi.createPayment({
+      sourceId: "EXTERNAL",
+      amountMoney: {
+        amount: orderTotal,
+        currency: "USD",
+      },
+      orderId: response.result.order.id,
+    });
+
+    console.log(response1.result);
+    const paymentId = 0;
 
     // Pay for the order
   } catch (error) {
