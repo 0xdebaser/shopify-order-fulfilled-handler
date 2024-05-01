@@ -48,6 +48,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
         },
       };
       if (sku) lineItemObj.catalogObjectId = sku;
+      else lineItemObj.name = lineItem.name;
       newOrderData.lineItems.push(lineItemObj);
     });
 
