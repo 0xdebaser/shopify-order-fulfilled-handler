@@ -66,6 +66,9 @@ export default async function createSquareOrderFromShopifyOrder(data) {
 
     // Add in fulfillment state (for Square Dashboard purposes)
     newOrderData.fulfillments = [{ type: "SHIPMENT", state: "PROPOSED" }];
+    newOrderData.fulfillments[0].shipmentDeatils = {
+      recipient: { customerId: newOrderData.customerId },
+    };
 
     // Create new order in Square
     const response = await squareClient.ordersApi.createOrder({
