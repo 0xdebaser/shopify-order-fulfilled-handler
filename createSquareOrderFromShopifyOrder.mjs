@@ -22,10 +22,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     newOrderData.location = process.env.SQUARE_CUBE_LOCATION_ID;
     newOrderData.source = { name: "shopify-fulfillment-handler" };
     newOrderData.referenceId = `Shopify Order: ${data.id}`;
-    newOrderData.newOrderData.customerId = await customerHandler(
-      data,
-      squareClient
-    );
+    newOrderData.customerId = await customerHandler(data, squareClient);
 
     // add items to order by looping through line items
     newOrderData.lineItems = [];
