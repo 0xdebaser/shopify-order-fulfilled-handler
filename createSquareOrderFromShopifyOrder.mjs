@@ -40,7 +40,6 @@ export default async function createSquareOrderFromShopifyOrder(data) {
           transferToCube(squareClient, sku, lineItem.quantity);
       }
       const lineItemObj = {
-        name: lineItem.name,
         quantity: lineItem.quantity.toString(),
         basePriceMoney: {
           amount: parseFloat(lineItem.price) * 100,
