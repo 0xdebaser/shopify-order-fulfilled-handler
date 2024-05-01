@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "nodemailer": "^6.9.13",
-    "square": "^34.0.1"
+    "square": "^34.0.1",
+    "uuid": "^9.0.1"
   }
 }

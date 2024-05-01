@@ -1,4 +1,5 @@
 import { Client, Environment } from "square";
+import { v4 as uuidv4 } from "uuid";
 
 import customerHandler from "./customerHandler.mjs";
 import doesItemHaveNecessaryCubeInventory from "./doesItemHaveNecessaryCubeInventory.mjs";
@@ -74,17 +75,19 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     const response = await squareClient.ordersApi.createOrder({
       order: newOrderData,
     });
-    console.log(`New Square Order created: ${response.result.order.id}`);
+    const orderId = response.result.order.id;
+    console.log(`New Square Order created: ${orderId}`);
     const orderTotal = response.result.order.totalMoney.amount;
 
     // Pay for order
     const response1 = await squareClient.paymentsApi.createPayment({
+      idempotencyKey: uuidv4(),
       sourceId: "EXTERNAL",
       amountMoney: {
         amount: orderTotal,
         currency: "USD",
       },
-      orderId: response.result.order.id,
+      orderId,
     });
 
     console.log(response1.result);
