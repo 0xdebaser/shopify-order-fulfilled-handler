@@ -82,6 +82,10 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     const response1 = await squareClient.paymentsApi.createPayment({
       idempotencyKey: crypto.randomUUID(),
       sourceId: "EXTERNAL",
+      externalDetails: {
+        source: "Shopify",
+        type: "EXTERNAL",
+      },
       amountMoney: {
         amount: orderTotal,
         currency: "USD",
