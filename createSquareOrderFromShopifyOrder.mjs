@@ -95,10 +95,17 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     });
 
     console.log(response1.result);
-    const paymentId = 0;
+    const paymentId = response1.result.payment.id;
 
-    // Pay for the order
+    // Attach payment to order
+    const response2 = await squareClient.ordersApi.payOrder(orderId, {
+      idempotencyKey: crypto.randomUUID(),
+      paymentIds: [paymentId],
+    });
+    console.log(response2.result);
+    return true;
   } catch (error) {
     console.log(error);
+    return false;
   }
 }
