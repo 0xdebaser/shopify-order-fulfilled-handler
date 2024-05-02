@@ -91,6 +91,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
         currency: "USD",
       },
       orderId,
+      locationId: newOrderData.locationId,
     });
 
     console.log(response1.result);
