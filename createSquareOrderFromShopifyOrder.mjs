@@ -73,7 +73,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     // Create new order in Square
     const response = await squareClient.ordersApi.createOrder({
       order: newOrderData,
-      idempotencyKey: data.id, // Using Shopify order id as idempotency key to prevent dup orders
+      idempotencyKey: data.id.toString(), // Using Shopify order id as idempotency key to prevent dup orders
     });
     const orderId = response.result.order.id;
     console.log(`New Square Order created: ${orderId}`);
