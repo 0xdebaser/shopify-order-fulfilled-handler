@@ -25,4 +25,5 @@ export const handler = async (event, context, callback) => {
     body: JSON.stringify(responseObject),
   };
   callback(null, response);
+  console.log("Sent response.");
 };
