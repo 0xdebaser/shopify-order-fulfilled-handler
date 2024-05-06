@@ -1,10 +1,13 @@
 import createSquareOrderFromShopifyOrder from "./createSquareOrderFromShopifyOrder.mjs";
+import { testDataWithoutTax } from "./testData.mjs";
+
+const TEST_MODE = false;
 
 export const handler = async (event, context, callback) => {
   let responseObject;
 
   try {
-    const data = await JSON.parse(event.body);
+    const data = TEST_MODE ? testDataWithoutTax : await JSON.parse(event.body);
     createSquareOrderFromShopifyOrder(data);
     responseObject = {
       result: "success",
@@ -24,6 +27,8 @@ export const handler = async (event, context, callback) => {
     },
     body: JSON.stringify(responseObject),
   };
-  callback(null, response);
+  if (!TEST_MODE) callback(null, response);
   console.log("Sent response.");
 };
+
+if (TEST_MODE) handler(null, null, null);

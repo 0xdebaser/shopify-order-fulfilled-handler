@@ -1,4 +1,5 @@
 import { Client, Environment } from "square";
+import "dotenv/config";
 
 import customerHandler from "./customerHandler.mjs";
 import doesItemHaveNecessaryCubeInventory from "./doesItemHaveNecessaryCubeInventory.mjs";
@@ -26,18 +27,26 @@ export default async function createSquareOrderFromShopifyOrder(data) {
 
     // add items to order by looping through line items
     newOrderData.lineItems = [];
-    data.line_items.forEach((lineItem) => {
+    data.line_items.forEach(async (lineItem) => {
       const { sku } = lineItem; // Shopify sku == Square item id
       // Check to make sure that there is sufficient inventory at the Cube.
       // If not, transfer inventory from Alii to the Cube.
       if (sku) {
-        const inStockAtCube = doesItemHaveNecessaryCubeInventory(
+        const inStockAtCube = await doesItemHaveNecessaryCubeInventory(
           squareClient,
           sku,
           lineItem.quantity.toString()
         );
-        if (!inStockAtCube)
-          transferToCube(squareClient, sku, lineItem.quantity);
+        if (!inStockAtCube) {
+          console.log(`Insufficient quantity for SKU ${sku}`);
+          transferToCube(
+            squareClient,
+            sku,
+            lineItem.quantity,
+            data.order_number.toString(),
+            lineItem.name
+          );
+        }
       }
       const lineItemObj = {
         quantity: lineItem.quantity.toString(),

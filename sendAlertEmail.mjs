@@ -1,4 +1,5 @@
 import nodemailer from "nodemailer";
+import "dotenv/config";
 
 export default async function sendAlertEmail(orderNumber, alertItems) {
   try {
@@ -14,16 +15,18 @@ export default async function sendAlertEmail(orderNumber, alertItems) {
     let alertItemsList = "<ul>";
     alertItems.forEach(
       (alertItem) =>
-        (alertItemsList += `<li>${alertItem.name} (${alertItem.sku})</li>`)
+        (alertItemsList += `<li>${alertItem.name} (${alertItem.sku}) Quantity: ${alertItem.quantity}</li>`)
     );
     alertItemsList += "</ul>";
     const info = await transporter.sendMail({
-      from: '"Auto Alerts 🙊" <alerts@runbig.co>',
+      from: '"Auto Alerts 🙉" <alerts@runbig.co>',
       to: "shop@bigislandrunningcompany.com",
-      subject: `Alert for Order #${orderNumber}`,
-      html: `<h2>The following items in Order #${orderNumber} are not in stock at the Cube:</h2> ${alertItemsList}`,
+      subject: `Transfer Alert for Order #${orderNumber}`,
+      html: `<h2>The following item in Order #${orderNumber} was not in stock at the Cube, so I transferred it from Alii Drive to the Cube for you:</h2> ${alertItemsList}`,
     });
-    console.log(`Successfully sent alert message for Order #${orderNumber}.`);
+    console.log(
+      `Successfully sent transfer alert message for Order #${orderNumber}.`
+    );
   } catch (error) {
     console.log(error);
   }
