@@ -26,3 +26,4 @@ yarn-error.log*
 sanbox.mjs
 testArray.mjs
 test.mjs
+testData.mjs

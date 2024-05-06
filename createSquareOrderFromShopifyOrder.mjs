@@ -9,7 +9,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
   let squareClient;
 
   try {
-    console.log(data);
+    //console.log(data);
     const newOrder = { order: {} };
     const newOrderData = newOrder.order;
 
@@ -27,7 +27,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
 
     // add items to order by looping through line items
     newOrderData.lineItems = [];
-    data.line_items.forEach(async (lineItem) => {
+    for (const lineItem of data.line_items) {
       const { sku } = lineItem; // Shopify sku == Square item id
       // Check to make sure that there is sufficient inventory at the Cube.
       // If not, transfer inventory from Alii to the Cube.
@@ -58,7 +58,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
       if (sku) lineItemObj.catalogObjectId = sku;
       else lineItemObj.name = lineItem.name;
       newOrderData.lineItems.push(lineItemObj);
-    });
+    }
 
     // Add in shipping as line item
     const shippingLineItem = {
