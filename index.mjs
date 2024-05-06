@@ -1,5 +1,5 @@
 import createSquareOrderFromShopifyOrder from "./createSquareOrderFromShopifyOrder.mjs";
-import { testDataWithoutTax } from "./testData.mjs";
+//import { testDataWithoutTax } from "./testData.mjs";
 
 const TEST_MODE = false;
 
