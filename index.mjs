@@ -1,7 +1,7 @@
 import createSquareOrderFromShopifyOrder from "./createSquareOrderFromShopifyOrder.mjs";
 import { testDataWithoutTax } from "./testData.mjs";
 
-const TEST_MODE = true;
+const TEST_MODE = false;
 
 export const handler = async (event, context, callback) => {
   let responseObject;
