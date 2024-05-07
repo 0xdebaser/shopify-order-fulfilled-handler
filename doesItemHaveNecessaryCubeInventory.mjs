@@ -11,11 +11,11 @@ export default async function doesItemHaveNecessaryCubeInventory(
       CUBE_LOCATION_ID
     );
     const cubeInventory = response.result["counts"][0]["quantity"];
-    console.log(
-      `For ${squareItemId}, have ${cubeInventory} and need ${neededQuantity}. Returning ${
-        neededQuantity <= cubeInventory
-      }`
-    );
+    // console.log(
+    //   `For ${squareItemId}, have ${cubeInventory} and need ${neededQuantity}. Returning ${
+    //     neededQuantity <= cubeInventory
+    //   }`
+    // );
     return neededQuantity <= cubeInventory;
   } catch (error) {
     console.log(error);

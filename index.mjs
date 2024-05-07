@@ -1,5 +1,5 @@
 import createSquareOrderFromShopifyOrder from "./createSquareOrderFromShopifyOrder.mjs";
-//import { testDataWithoutTax } from "./testData.mjs";
+//import { testDataWithoutTax, testDataWithTax } from "./testData.mjs";
 
 const TEST_MODE = false;
 
@@ -7,7 +7,7 @@ export const handler = async (event, context, callback) => {
   let responseObject;
 
   try {
-    const data = TEST_MODE ? testDataWithoutTax : await JSON.parse(event.body);
+    const data = TEST_MODE ? testDataWithTax : await JSON.parse(event.body);
     createSquareOrderFromShopifyOrder(data);
     responseObject = {
       result: "success",

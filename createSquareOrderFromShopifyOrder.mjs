@@ -9,7 +9,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
   let squareClient;
 
   try {
-    //console.log(data);
+    console.log(data);
     const newOrder = { order: {} };
     const newOrderData = newOrder.order;
 
@@ -73,6 +73,23 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     };
     newOrderData.lineItems.push(shippingLineItem);
 
+    // Add in tax - currently only supports HI GET
+    if (data.tax_lines.length) {
+      newOrderData.taxes = [
+        {
+          uid: "hawaii-get",
+          name: "Hawaii GET",
+          scope: "LINE_ITEM",
+          percentage: "4.712",
+          type: "ADDITIVE",
+        },
+      ];
+      for (const lineItem of newOrderData.lineItems) {
+        if (lineItem.name != "Shipping")
+          lineItem.appliedTaxes = [{ taxUid: "hawaii-get" }];
+      }
+    }
+
     // Add in fulfillment state (for Square Dashboard purposes)
     newOrderData.fulfillments = [{ type: "SHIPMENT", state: "PROPOSED" }];
     newOrderData.fulfillments[0].shipmentDetails = {
@@ -104,8 +121,11 @@ export default async function createSquareOrderFromShopifyOrder(data) {
       locationId: newOrderData.locationId,
     });
 
-    console.log(response1.result);
+    //console.log(response1.result);
     const paymentId = response1.result.payment.id;
+    console.log(`Order paid for with payment ${paymentId}`);
+
+    return true;
 
     // Attach payment to order
     const response2 = await squareClient.ordersApi.payOrder(orderId, {
