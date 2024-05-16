@@ -51,7 +51,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
       const lineItemObj = {
         quantity: lineItem.quantity.toString(),
         basePriceMoney: {
-          amount: parseFloat(lineItem.price) * 100,
+          amount: Math.round(parseFloat(lineItem.price) * 100),
           currency: "USD",
         },
       };
@@ -66,7 +66,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
       quantity: "1",
       basePriceMoney: {
         amount: data.shipping_lines[0].price
-          ? parseFloat(data.shipping_lines[0].price) * 100
+          ? Math.round(parseFloat(data.shipping_lines[0].price) * 100)
           : "0",
         currency: "USD",
       },
