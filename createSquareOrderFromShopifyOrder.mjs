@@ -27,6 +27,7 @@ export default async function createSquareOrderFromShopifyOrder(data) {
 
     // add items to order by looping through line items
     newOrderData.lineItems = [];
+    const toTransfer = [];
     for (const lineItem of data.line_items) {
       const { sku } = lineItem; // Shopify sku == Square item id
       // Check to make sure that there is sufficient inventory at the Cube.
@@ -39,13 +40,19 @@ export default async function createSquareOrderFromShopifyOrder(data) {
         );
         if (!inStockAtCube) {
           console.log(`Insufficient quantity for SKU ${sku}`);
-          transferToCube(
-            squareClient,
+          // transferToCube(
+          //   squareClient,
+          //   sku,
+          //   lineItem.quantity,
+          //   data.order_number.toString(),
+          //   lineItem.name
+          // );
+          toTransfer.push({
             sku,
-            lineItem.quantity,
-            data.order_number.toString(),
-            lineItem.name
-          );
+            quantity: lineItem.quantity,
+            orderNumber: data.order_number.toString(),
+            name: lineItem.name,
+          });
         }
       }
       const lineItemObj = {
@@ -124,6 +131,19 @@ export default async function createSquareOrderFromShopifyOrder(data) {
     //console.log(response1.result);
     const paymentId = response1.result.payment.id;
     console.log(`Order paid for with payment ${paymentId}`);
+
+    // Handle any items that need to be transferred
+    if (toTransfer.length) {
+      for (const item of toTransfer) {
+        transferToCube(
+          squareClient,
+          item.sku,
+          item.quantity,
+          item.orderNumber,
+          item.name
+        );
+      }
+    }
 
     return true;
 
