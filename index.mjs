@@ -1,7 +1,4 @@
-import { appendFileSync } from "fs";
-
 import createSquareOrderFromShopifyOrder from "./createSquareOrderFromShopifyOrder.mjs";
-import checkForDups from "./checkForDup.mjs";
 // import { testDataWithoutTax, testDataWithTax } from "./testData.mjs";
 
 const TEST_MODE = false;
@@ -11,13 +8,7 @@ export const handler = async (event, context, callback) => {
 
   try {
     const data = TEST_MODE ? testDataWithoutTax : await JSON.parse(event.body);
-    let handle = await checkForDups(data.id);
-    if (handle) {
-      createSquareOrderFromShopifyOrder(data);
-      appendFileSync("handledOrders.dat", data.id + "\n");
-    } else {
-      console.log("Duplicate order detected and rejected.");
-    }
+    createSquareOrderFromShopifyOrder(data);
     responseObject = {
       result: "success",
     };
